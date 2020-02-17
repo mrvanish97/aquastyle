@@ -67,6 +67,7 @@ def write_to_file_formatted(text):
     text = re.sub('\n +', '\n', text)
     text = re.sub('\n+', '\n', text)
     text = re.sub('\n[a-zA-Z0-9]*\n', '\n', text)
+    text = text + "\n"
     f.write(text.lower())
 
 def on_pages_list(list, visited):

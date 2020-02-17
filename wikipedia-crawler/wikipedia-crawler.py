@@ -59,7 +59,15 @@ def write_to_file_formatted(text):
     text = re.sub('== External links ==', '', text)
     text = re.sub('==+ ', '', text)
     text = re.sub(' ==+', '', text)
-    f.write(text)
+    text = re.sub('\n\n+', '', text)
+    text = re.sub('\. ', '\n', text)
+    text = re.sub('\.', '\n', text)
+    text = re.sub('[^a-zA-Z0-9 \n]', '', text)
+    text = re.sub(' +', ' ', text)
+    text = re.sub('\n +', '\n', text)
+    text = re.sub('\n+', '\n', text)
+    text = re.sub('\n[a-zA-Z0-9]*\n', '\n', text)
+    f.write(text.lower())
 
 def on_pages_list(list, visited):
     [on_page(page, visited) for page in list]
@@ -72,7 +80,10 @@ def on_page(page, visited):
       visited.append(page['pageid'])
       clear_screen()
       print(len(visited))
-      write_to_file_formatted(wikipedia.page(pageid=page['pageid'], redirect=False).content)
+      try:
+          write_to_file_formatted(wikipedia.page(pageid=page['pageid'], redirect=False).content)
+      except wikipedia.exceptions.DisambiguationError:
+          pass
     
 
 bfs_traverse(start_cat_id, on_pages_list, [])

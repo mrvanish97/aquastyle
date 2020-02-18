@@ -3,7 +3,7 @@ import requests
 import os
 import re
 
-start_cat_id = 4423397
+start_cat_id = 44668068
 
 wiki_api_url = "https://en.wikipedia.org/w/api.php"
 

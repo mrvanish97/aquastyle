@@ -7,20 +7,28 @@ import org.jetbrains.annotations.NotNull;
 
 public class JavaPsiRecursiveElementVisitorFactory implements PsiRecursiveElementVisitorFactory {
     @Override
-    public JavaElementVisitor buildVisitor(AQSPsiRecursiveElementVisitor delegate) {
+    public JavaElementVisitor buildVisitor(TreeCallback<PsiElement> callback) {
         return new JavaRecursiveElementWalkingVisitor() {
             @Override
             public void visitElement(PsiElement element) {
-                delegate.beforeElementVisited(element);
+                if (callback.shouldBeSkipped(element)) {
+                    super.visitElement(element);
+                    return;
+                }
+                callback.beforeElementVisited(element);
                 super.visitElement(element);
-                delegate.afterElementVisited(element);
+                callback.afterElementVisited(element);
             }
 
             @Override
             protected void elementFinished(@NotNull PsiElement element) {
-                delegate.beforeElementFinished(element);
+                if (callback.shouldBeSkipped(element)) {
+                    super.visitElement(element);
+                    return;
+                }
+                callback.beforeElementFinished(element);
                 super.elementFinished(element);
-                delegate.afterElementFinished(element);
+                callback.afterElementFinished(element);
             }
         };
     }

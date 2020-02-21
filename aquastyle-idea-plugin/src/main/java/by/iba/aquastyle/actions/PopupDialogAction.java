@@ -142,7 +142,7 @@ public class PopupDialogAction extends AnAction {
                 public void beforeElementVisited(PsiElement element) {
                     final String msg = trimAndFormatElementString(element.toString());
                     sb.append("-").append(
-                        String.join(" ", TokenUtils.CAMEL_CASE_SPLITTER.apply(msg)).toLowerCase().replaceAll(" ", " -")
+                        String.join(" ", TokenUtils.CAMEL_CASE_SPLITTER.apply(msg)).toLowerCase().replaceAll(" ", "")
                     ).append(" ");
                     if (isLeaf(element)) {
                         final String text = element.getText().trim();
@@ -161,8 +161,8 @@ public class PopupDialogAction extends AnAction {
                 public void afterElementFinished(PsiElement element) {
                     if (!isLeaf(element)) {
                         final String msg = trimAndFormatElementString(element.toString());
-                        sb.append("-end -of -").append(
-                            String.join(" ", TokenUtils.CAMEL_CASE_SPLITTER.apply(msg)).toLowerCase().replaceAll(" ", " -")
+                        sb.append("-endof-").append(
+                            String.join(" ", TokenUtils.CAMEL_CASE_SPLITTER.apply(msg)).toLowerCase().replaceAll(" ", "")
                         ).append("\n");
                     }
                 }
